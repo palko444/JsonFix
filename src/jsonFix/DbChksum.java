@@ -11,7 +11,8 @@ public class DbChksum {
 
     public static String getPolicyCksum(String name, String type, String version) {
 
-        String[] command = new String[] { "/opt/OV/bin/OpC/utils/opcpolicy", "-list_pols", "pol_type=", type, "pol_name=", name, "version=", version };
+//        String[] command = new String[] { "/opt/OV/bin/OpC/utils/opcpolicy", "-list_pols", "pol_type=", type, "pol_name=", name, "version=", version };
+        String[] command = new String[] {"cat", "/home/pala/cksum"};
         CommandResult cm = null;
         try {
             cm = CommandExecutor.exec(command, 5000);
