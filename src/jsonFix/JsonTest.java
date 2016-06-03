@@ -29,7 +29,7 @@ public class JsonTest {
                 String dbCksum = DbChksum.getPolicyCksum(policy_name, policy_type, policy_version);
 
                 if (!policy_hdr_checksum.equals(dbCksum)) {
-                
+
                 }
 
             }
