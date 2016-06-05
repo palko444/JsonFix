@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class JsonTest {
 
@@ -29,7 +30,7 @@ public class JsonTest {
                 dbCksum = DbChksum.getPolicyCksum(policy_name, policy_type, policy_version);
 
                 if (policy_hdr_checksum.replace("\"", "").equals(dbCksum)) {
-                    System.out.println("tu " + policy_name);
+                    ((ObjectNode) section).put("policy_hdr_checksum", "aaaaaaaaaaaaaa");
 
                 }
             }
@@ -53,12 +54,13 @@ public class JsonTest {
                         JsonNode aSection = actionSection.next();
                         if (aSection.path("action").toString().replace("\"", "").equals("check_policy_on_node")) {
                             if (aSection.path("policy_hdr_checksum").toString().replace("\"", "").equals(dbCksum)) {
-                            System.out.println("tam " + aSection.path("policy").toString());
+                                ((ObjectNode) aSection).put("policy_hdr_checksum", "aaaaaaaaaaaaaa");
                             }
                         }
                     }
                 }
             }
         }
+        om.writeValue(new File("/home/pala/testjson"), node);
     }
 }
