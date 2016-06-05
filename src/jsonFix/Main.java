@@ -13,12 +13,10 @@ public class Main {
         // File baseFolder = new File ("/var/opt/OpC_local/SALT/store");
         File baseFolder = new File("/home/pala/json");
         File tj = new File("/home/pala/json/WW_UXMON/11.00/WW_UXMON.json");
-//        JsonFiles js = new JsonFiles();
-//        System.out.println(js.getFiles(baseFolder));
+        // JsonFiles js = new JsonFiles();
+        // System.out.println(js.getFiles(baseFolder));
         JsonTest jt = new JsonTest();
         jt.correctJson(tj);
-        
-        
 
     }
 

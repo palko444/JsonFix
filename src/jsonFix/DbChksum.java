@@ -11,12 +11,13 @@ public class DbChksum {
 
     public static String getPolicyCksum(String name, String type, String version) {
 
-//        String[] command = new String[] { "/opt/OV/bin/OpC/utils/opcpolicy", "-list_pols", "pol_type=", type, "pol_name=", name, "version=", version };
-        String[] command = new String[] {"cat", "/home/pala/cksum"};
+        // String[] command = new String[] { "/opt/OV/bin/OpC/utils/opcpolicy", "-list_pols", "pol_type=", type, "pol_name=", name, "version=", version };
+        String[] command = new String[] { "cat", "/home/pala/cksum" };
         CommandResult cm = null;
         try {
             cm = CommandExecutor.exec(command, 5000);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             // TODO Auto-generated catch block
             System.out.println("cannot execute " + command);
             System.exit(1);

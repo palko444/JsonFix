@@ -3,11 +3,11 @@ package jsonFix;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class JsonTest {
@@ -15,6 +15,7 @@ public class JsonTest {
     public void correctJson(File json) throws JsonParseException, JsonMappingException, IOException {
 
         ObjectMapper om = new ObjectMapper();
+        om.enable(SerializationFeature.INDENT_OUTPUT);
         JsonNode node = om.readTree(json);
         JsonNode installChecks = node.path("INSTALLCHECKS");
         Iterator<JsonNode> installSections = installChecks.elements();
