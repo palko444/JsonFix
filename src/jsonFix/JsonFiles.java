@@ -1,21 +1,21 @@
 package jsonFix;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class JsonFiles {
 
-    ArrayList<File> jsons = new ArrayList<File>();
+    Set<File> jsons = new HashSet<File>();
 
-    public ArrayList<File> getFiles(File folder) {
+    public Set<File> getFiles(File folder) {
 
         for (File f : folder.listFiles()) {
-            if ((!f.toString().endsWith("BACKUP")) || (!f.toString().endsWith("PATCH"))) {
+            if ((!f.toString().endsWith("BACKUP")) && (!f.toString().endsWith("PATCH"))) {
                 if (f.isDirectory()) {
                     getFiles(f);
                 }
                 if (f.toString().endsWith(".json")) {
-                    // System.out.println(f);
                     jsons.add(f);
                 }
             }

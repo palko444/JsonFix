@@ -11,22 +11,23 @@ public class DbChksum {
 
     public static String getPolicyCksum(String name, String type, String version) {
 
-        // String[] command = new String[] { "/opt/OV/bin/OpC/utils/opcpolicy", "-list_pols", "pol_type=", type, "pol_name=", name, "version=", version };
-        String[] command = new String[] { "cat", "/home/pala/cksum" };
+        String pt = "pol_type=" + type.replaceAll("\"", "");
+        String pn = "pol_name=" + name.replaceAll("\"", "");
+        String pv = "version=" + version.replaceAll("\"", "");
+        String[] command = new String[] { "/opt/OV/bin/OpC/utils/opcpolicy", "-list_pols", pt, pn, pv };
         CommandResult cm = null;
         try {
             cm = CommandExecutor.exec(command, 5000);
-        }
-        catch (IOException e) {
-            // TODO Auto-generated catch block
-            System.out.println("cannot execute " + command);
+        } catch (IOException e) {
+            System.out.println("cannot execute command");
             System.exit(1);
         }
 
         if (cm.rc != 0) {
-            System.out.println("cannot execute " + command);
+            System.out.println("Non 0 exit code: " + cm.rc);
             System.exit(1);
         }
+//        System.out.println(pn + " : " + parseCksum(cm.stdout));
         return parseCksum(cm.stdout);
     }
 
