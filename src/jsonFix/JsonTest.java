@@ -65,10 +65,7 @@ public class JsonTest {
                             String policy_version = aSection.path("policy_version").toString();
                             dbCksum = DbChksum.getPolicyCksum(policy_name, policy_type, policy_version);
                             if (!policy_hdr_checksum.toString().replaceAll("\"", "").equals(dbCksum)) {
-//                                System.out.println(policy_name + " bef  cksum: " + policy_hdr_checksum);
                                 ((ObjectNode) aSection).put("policy_hdr_checksum", dbCksum);
-//                                System.out.println(policy_name + " Json cksum: " + aSection.path("policy_hdr_checksum").toString().replaceAll("\"", ""));
-//                                System.out.println(policy_name + " DB cksum  : " + dbCksum);
                             }
                         }
                     }
@@ -82,7 +79,7 @@ public class JsonTest {
         if (!backupDir.exists()) {
             backupDir.mkdir();
         }
-        Files.copy(json.toPath(), backupJson.toPath(), REPLACE_EXISTING);
+        Files.copy(json.toPath(), backupJson.toPath());
         om.writeValue(json, node);
         System.out.println("#### File " + json + " done");
     }

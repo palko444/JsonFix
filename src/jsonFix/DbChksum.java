@@ -1,6 +1,7 @@
 package jsonFix;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,11 +10,18 @@ import runComm.CommandResult;
 
 public class DbChksum {
 
+    public static HashMap<String, String> policies = new HashMap<String, String>();
+
     public static String getPolicyCksum(String name, String type, String version) {
 
         String pt = "pol_type=" + type.replaceAll("\"", "");
         String pn = "pol_name=" + name.replaceAll("\"", "");
         String pv = "version=" + version.replaceAll("\"", "");
+        String key = name + "++" + type + " ++" + version;
+
+        if (policies.containsKey(key)) {
+            return policies.get(key);
+        }
         String[] command = new String[] { "/opt/OV/bin/OpC/utils/opcpolicy", "-list_pols", pt, pn, pv };
         CommandResult cm = null;
         try {
@@ -27,8 +35,9 @@ public class DbChksum {
             System.out.println("Non 0 exit code: " + cm.rc);
             System.exit(1);
         }
-//        System.out.println(pn + " : " + parseCksum(cm.stdout));
-        return parseCksum(cm.stdout);
+        String cksum = parseCksum(cm.stdout);
+        policies.put(key, cksum);
+        return cksum;
     }
 
     private static String parseCksum(String policyDetails) {
