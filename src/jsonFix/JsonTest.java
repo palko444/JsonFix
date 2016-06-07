@@ -2,6 +2,7 @@ package jsonFix;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.util.Iterator;
 
@@ -11,8 +12,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-
-import static java.nio.file.StandardCopyOption.*;
 
 public class JsonTest {
 
@@ -79,7 +78,11 @@ public class JsonTest {
         if (!backupDir.exists()) {
             backupDir.mkdir();
         }
-        Files.copy(json.toPath(), backupJson.toPath());
+        try {
+            Files.copy(json.toPath(), backupJson.toPath());
+        } catch (FileAlreadyExistsException e) {
+            System.out.println("Backup already exist");
+        }
         om.writeValue(json, node);
         System.out.println("#### File " + json + " done");
     }
