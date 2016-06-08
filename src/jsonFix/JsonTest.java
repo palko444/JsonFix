@@ -88,5 +88,6 @@ public class JsonTest {
         om.writeValue(json, node);
         System.out.println("Number of changes done in file: " + numberOfChnages);
         System.out.println("#### File " + json + " done");
+        System.out.println();
     }
 }
