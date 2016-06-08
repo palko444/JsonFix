@@ -17,13 +17,14 @@ public class JsonTest {
 
     public void correctJson(File json) throws JsonParseException, JsonMappingException, IOException {
 
-        System.out.println("#### Starting for file " + json);
+        System.out.println("#### Starting working on file " + json);
         ObjectMapper om = new ObjectMapper();
         om.enable(SerializationFeature.INDENT_OUTPUT);
         JsonNode node = om.readTree(json);
         JsonNode installChecks = node.path("INSTALLCHECKS");
         Iterator<JsonNode> installSections = installChecks.elements();
         String dbCksum = null;
+        int numberOfChnages = 0;
 
         while (installSections.hasNext()) {
             JsonNode section = installSections.next();
@@ -36,7 +37,7 @@ public class JsonTest {
 
                 if (!policy_hdr_checksum.replaceAll("\"", "").equals(dbCksum)) {
                     ((ObjectNode) section).put("policy_hdr_checksum", dbCksum);
-
+                    numberOfChnages++;
                 }
             }
         }
@@ -65,6 +66,7 @@ public class JsonTest {
                             dbCksum = DbChksum.getPolicyCksum(policy_name, policy_type, policy_version);
                             if (!policy_hdr_checksum.toString().replaceAll("\"", "").equals(dbCksum)) {
                                 ((ObjectNode) aSection).put("policy_hdr_checksum", dbCksum);
+                                numberOfChnages++;
                             }
                         }
                     }
@@ -84,6 +86,7 @@ public class JsonTest {
             System.out.println("Backup already exist");
         }
         om.writeValue(json, node);
+        System.out.println("Number of changes done in file: " + numberOfChnages);
         System.out.println("#### File " + json + " done");
     }
 }
